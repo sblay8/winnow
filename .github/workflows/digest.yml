@@ -1,0 +1,52 @@
+name: Content digest
+
+on:
+  schedule:
+    # Runs daily. Cron is in UTC — 13:00 UTC ≈ 9am US Eastern / 6am Pacific.
+    # Adjust the hour to taste: https://crontab.guru
+    - cron: "0 13 * * *"
+  workflow_dispatch: {}   # lets you trigger a run manually from the Actions tab
+
+# Needed so the job can commit the updated seen.json back to the repo.
+permissions:
+  contents: write
+
+concurrency:
+  group: content-digest
+  cancel-in-progress: false
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run pipeline
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          DIGEST_TO: ${{ secrets.DIGEST_TO }}
+          CLAUDE_MODEL: ${{ vars.CLAUDE_MODEL }}   # optional; blank falls back to the default
+        run: python main.py
+
+      - name: Persist seen.json
+        if: always()   # save state even if the send step errored
+        run: |
+          if [[ -n "$(git status --porcelain seen.json)" ]]; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add seen.json
+            git commit -m "Update seen.json [skip ci]"
+            git push
+          else
+            echo "No change to seen.json."
+          fi
