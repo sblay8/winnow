@@ -18,18 +18,23 @@ def _render_html(items: list[dict]) -> str:
             f'font-size:12px;color:#334;">{escape(t)}</span>'
             for t in an.tags
         )
+        link_html = (
+            f'<div style="margin-top:10px;font-size:13px;">'
+            f'<a href="{escape(a.url)}" style="color:#3355dd;">Read the full article &rarr;</a></div>'
+            if a.url else ""
+        )
+        title_html = (
+            f'<a href="{escape(a.url)}" style="color:#1a1a1a;text-decoration:none;">{escape(a.title)}</a>'
+            if a.url else escape(a.title)
+        )
         cards.append(f"""
         <div style="margin:0 0 26px;padding-bottom:22px;border-bottom:1px solid #eee;">
           <div style="font-size:12px;color:#888;">{escape(a.feed)} · {escape(a.published)} · relevance {an.relevance}/10</div>
-          <h2 style="margin:4px 0 8px;font-size:18px;">
-            <a href="{escape(a.url)}" style="color:#1a1a1a;text-decoration:none;">{escape(a.title)}</a>
-          </h2>
+          <h2 style="margin:4px 0 8px;font-size:18px;">{title_html}</h2>
           <p style="margin:0 0 10px;color:#333;line-height:1.5;">{escape(an.summary)}</p>
           {points_html}
           <div style="margin-top:8px;">{tags}</div>
-          <div style="margin-top:10px;font-size:13px;">
-            <a href="{escape(a.url)}" style="color:#3355dd;">Read the full article &rarr;</a>
-          </div>
+          {link_html}
         </div>""")
 
     return f"""<html><body style="font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;

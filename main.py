@@ -8,9 +8,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from config import MIN_RELEVANCE
-from feed_reader import fetch_new_articles
+from config import MIN_RELEVANCE, SOURCE
 from state import load_seen, save_seen
+
+if SOURCE == "gmail":
+    from gmail_reader import fetch_new_articles
+else:
+    from feed_reader import fetch_new_articles
 
 
 async def run(dry_run: bool) -> int:
@@ -19,8 +23,11 @@ async def run(dry_run: bool) -> int:
     from emailer import send_digest
 
     seen = load_seen()
-    print("Fetching feeds…")
-    articles = fetch_new_articles(seen)
+    print(f"Reading new articles from {SOURCE}…")
+    try:
+        articles = fetch_new_articles(seen)
+    except RuntimeError as e:
+        sys.exit(f"Could not read articles: {e}")
     if not articles:
         print("No new articles. Nothing to do.")
         save_seen(seen)  # persist any teasers marked seen during fetch
@@ -69,6 +76,8 @@ def main() -> None:
 
     if not os.environ.get("ANTHROPIC_API_KEY"):
         sys.exit("ANTHROPIC_API_KEY is not set. Copy .env.example to .env and fill it in.")
+    if SOURCE == "gmail" and not (os.environ.get("GMAIL_ADDRESS") and os.environ.get("GMAIL_APP_PASSWORD")):
+        sys.exit("SOURCE is 'gmail' but GMAIL_ADDRESS / GMAIL_APP_PASSWORD are not set in .env.")
 
     sys.exit(asyncio.run(run(args.dry_run)))
 

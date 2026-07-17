@@ -1,14 +1,33 @@
 # Claude Content Agent
 
-Watches Substack RSS feeds, uses a Claude agent (built on Google's Agent
-Development Kit) to decide which new articles are genuinely useful, summarizes
-the good ones, and emails you a digest.
+Pulls new Substack posts — from your Gmail inbox by default — uses a Claude agent
+(built on Google's Agent Development Kit) to decide which are genuinely useful,
+summarizes the good ones, and emails you a digest.
 
 ```
-feeds (RSS)  ─▶  fetch new posts  ─▶  ADK + Claude agent  ─▶  useful?  ─▶  digest email
-                 (feed_reader)        (agent.py)              yes │
-                                                                  └▶ summary + key points
+Substack posts  ─▶  fetch new posts  ─▶  ADK + Claude agent  ─▶  useful?  ─▶  digest email
+(Gmail or RSS)      (gmail/feed_reader)   (agent.py)             yes │
+                                                                    └▶ summary + key points
 ```
+
+## Where posts come from (`SOURCE` in config.py)
+
+- **`"gmail"` (default)** — reads Substack posts straight from your Gmail. Whatever
+  you subscribe to on Substack lands in your inbox and flows in automatically —
+  there's no feed list to maintain. Requires a one-time Gmail filter (below).
+- **`"rss"`** — reads the explicit `FEEDS` list in `config.py` instead.
+
+### One-time Gmail filter (for `"gmail"` mode)
+
+Tell Gmail to label your Substack mail so the app knows what to read:
+
+1. Gmail → search bar dropdown → **Create filter**.
+2. In **From**, put: `substack.com OR substackmail.com`
+3. **Create filter** → check **Apply the label** → choose/create label **`Substack`**
+   (must match `GMAIL_LABEL` in `config.py`). Optionally tick "Also apply to matching
+   conversations" to backfill existing mail.
+
+Reading uses IMAP with the *same* `GMAIL_APP_PASSWORD` used for sending — no extra setup.
 
 ## Setup
 
@@ -58,8 +77,9 @@ only ever summarizes genuinely new posts. Example: every day at 8am.
 
 | File | Role |
 |------|------|
-| `config.py` | Feeds, interests, thresholds — **edit this** |
-| `feed_reader.py` | Fetches + cleans RSS articles |
+| `config.py` | Source, interests, thresholds, feeds — **edit this** |
+| `gmail_reader.py` | Reads Substack posts from your Gmail via IMAP (default source) |
+| `feed_reader.py` | Fetches + cleans RSS articles (when `SOURCE = "rss"`) |
 | `agent.py` | ADK `LlmAgent` on Claude; returns a structured useful/summary verdict |
 | `emailer.py` | Renders + sends the Gmail digest |
 | `state.py` | `seen.json` dedup so nothing repeats |

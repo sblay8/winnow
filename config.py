@@ -1,7 +1,17 @@
 """Configuration for the content pipeline. This is the file you'll edit most."""
 import os
 
-# --- Substack feeds to watch -------------------------------------------------
+# --- Where articles come from ------------------------------------------------
+# "gmail" : read Substack posts from your Gmail (see GMAIL_LABEL below). The list
+#           of what you follow lives in Substack/your inbox — nothing to maintain here.
+# "rss"   : read from the explicit FEEDS list below instead.
+SOURCE = "gmail"
+
+# Gmail label that your Substack mail is filed under (used when SOURCE = "gmail").
+# Set up a Gmail filter to apply this label to Substack emails (see README).
+GMAIL_LABEL = "Substack"
+
+# --- Substack feeds to watch (used only when SOURCE = "rss") -----------------
 # Any Substack works: https://<name>.substack.com/feed
 # Custom-domain Substacks expose /feed too (e.g. https://www.oneusefulthing.org/feed).
 FEEDS = [
