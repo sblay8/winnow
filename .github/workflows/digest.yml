@@ -2,9 +2,10 @@ name: Content digest
 
 on:
   schedule:
-    # Runs daily. Cron is in UTC — 13:00 UTC ≈ 9am US Eastern / 6am Pacific.
-    # Adjust the hour to taste: https://crontab.guru
-    - cron: "0 13 * * *"
+    # Runs daily at 06:30 UTC = 7:30am London during BST (summer).
+    # NB: GitHub cron is fixed UTC and does NOT follow DST — in winter (GMT)
+    # this fires at 6:30am local. Bump to "30 7 * * *" then if you want 7:30 year-round.
+    - cron: "30 6 * * *"
   workflow_dispatch: {}   # lets you trigger a run manually from the Actions tab
 
 # Needed so the job can commit the updated seen.json back to the repo.
