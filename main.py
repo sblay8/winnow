@@ -35,6 +35,7 @@ async def run(dry_run: bool) -> int:
 
     print(f"Found {len(articles)} new article(s). Analyzing with Claude…\n")
     picks: list[dict] = []
+    skipped: list[dict] = []
     for i, article in enumerate(articles):
         try:
             analysis = await analyze_article(article, i)
@@ -46,13 +47,12 @@ async def run(dry_run: bool) -> int:
         useful = analysis.is_useful and analysis.relevance >= MIN_RELEVANCE
         mark = "✓ keep" if useful else "· skip"
         print(f"  {mark}  [{analysis.relevance}/10] {article.title} — {analysis.reason}")
-        if useful:
-            picks.append({"article": article, "analysis": analysis})
+        (picks if useful else skipped).append({"article": article, "analysis": analysis})
 
     save_seen(seen)
-    print(f"\n{len(picks)} article(s) passed the bar (>= {MIN_RELEVANCE}/10).")
-    if not picks:
-        print("Nothing worth emailing this run.")
+    print(f"\n{len(picks)} passed the bar (>= {MIN_RELEVANCE}/10), {len(skipped)} skipped.")
+    if not picks and not skipped:
+        print("Nothing analyzed this run — no email.")
         return 0
 
     if dry_run:
@@ -60,10 +60,10 @@ async def run(dry_run: bool) -> int:
         from emailer import _render_html
         path = os.path.join("out", "digest.html")
         with open(path, "w", encoding="utf-8") as f:
-            f.write(_render_html(picks))
+            f.write(_render_html(picks, skipped))
         print(f"Dry run — wrote preview to {path} (no email sent).")
     else:
-        send_digest(picks)
+        send_digest(picks, skipped)
         print(f"Sent digest to {os.environ.get('DIGEST_TO') or os.environ.get('GMAIL_ADDRESS')}.")
     return 0
 

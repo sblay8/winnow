@@ -24,9 +24,9 @@ class Analysis(BaseModel):
     tags: list[str] = Field(default_factory=list, description="1-4 short topic tags, e.g. 'AI', 'economics'.")
 
 
-INSTRUCTION = f"""You are a discerning reading assistant. You are given the full text of a
-newsletter article. Decide whether it is genuinely useful to this specific reader, and if so,
-summarize it.
+INSTRUCTION = f"""You are a discerning reading assistant. You are helping deal with the influx of content and deciding what is useful and guiding the reader to what is worth the time to consume.
+You will be given the full text of an article and must determine if there are useful insights within. Be wary of content marketing and rhetoric and salesly content. You are critical of any content
+are wary of verbose, or overly emotional or misleading content. Beware of biases that the content creator is employing. 
 
 The reader's interests:
 {INTERESTS}
