@@ -24,13 +24,25 @@ def _pick_card(it: dict) -> str:
         f'<a href="{escape(a.url)}" style="color:#1a1a1a;text-decoration:none;">{escape(a.title)}</a>'
         if a.url else escape(a.title)
     )
+    gap_badge = (
+        f'<span style="background:#e7f7ec;color:#1a7f45;border-radius:4px;padding:1px 6px;'
+        f'font-size:12px;">Fills a gap{": " + escape(getattr(an, "gap_area", "")) if getattr(an, "gap_area", "") else ""}</span>'
+        if getattr(an, "fills_gap", False) else ""
+    )
+    relation = getattr(an, "relation_to_vault", "")
+    relation_html = (
+        f'<div style="margin-top:8px;font-size:13px;color:#666;">'
+        f'<b>Relates to your vault:</b> {escape(relation)}</div>'
+        if relation else ""
+    )
     return f"""
         <div style="margin:0 0 26px;padding-bottom:22px;border-bottom:1px solid #eee;">
           <div style="font-size:12px;color:#888;">{escape(a.feed)} · {escape(a.published)} · relevance {an.relevance}/10</div>
           <h2 style="margin:4px 0 8px;font-size:18px;">{title_html}</h2>
           <p style="margin:0 0 10px;color:#333;line-height:1.5;">{escape(an.summary)}</p>
           {points_html}
-          <div style="margin-top:8px;">{tags}</div>
+          {relation_html}
+          <div style="margin-top:8px;">{tags} {gap_badge}</div>
           {link_html}
         </div>"""
 
@@ -90,6 +102,10 @@ def _render_text(picks: list[dict], skipped: list[dict] | None = None) -> str:
         lines.append(an.summary)
         for p in an.key_points:
             lines.append(f"  - {p}")
+        if getattr(an, "fills_gap", False):
+            lines.append(f"  [Fills a gap: {an.gap_area}]" if an.gap_area else "  [Fills a gap]")
+        if getattr(an, "relation_to_vault", ""):
+            lines.append(f"  Relates to your vault: {an.relation_to_vault}")
         if a.url:
             lines.append(f"  {a.url}")
         lines.append("")

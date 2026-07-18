@@ -55,6 +55,29 @@ python main.py              # analyze + email the digest
 The first real run only needs Anthropic; add the Gmail values before dropping
 `--dry-run`.
 
+## Use your Obsidian vault as context (optional)
+
+The agent can weigh incoming articles against what's already in your notes — favoring
+things that **deepen active interests** or **fill gaps** your vault implies, and downranking
+what you already know cold.
+
+1. Set `VAULT_PATH` in `.env` to your vault folder (local only; never committed).
+2. Build the profile (runs locally, reads your notes, distills them via Claude):
+   ```bash
+   .venv/bin/python build_vault_profile.py
+   ```
+   This writes `vault_context.md` — a compact profile (core areas, active interests, gaps,
+   tag/title index). **Only this distillation** is written; your raw notes never leave your machine
+   beyond that one Claude call.
+3. Commit `vault_context.md` so the hosted job uses it:
+   ```bash
+   git add vault_context.md && git commit -m "Update vault profile" && git push
+   ```
+
+When the file is present, each pick shows a **"Relates to your vault"** line and a **"Fills a gap"**
+badge where relevant. Re-run the build script whenever your vault changes meaningfully. Delete
+`vault_context.md` to turn the feature off.
+
 ## Customize (`config.py`)
 
 - `FEEDS` — the Substack feeds to watch (`https://<name>.substack.com/feed`).
@@ -80,7 +103,8 @@ only ever summarizes genuinely new posts. Example: every day at 8am.
 | `config.py` | Source, interests, thresholds, feeds — **edit this** |
 | `gmail_reader.py` | Reads Substack posts from your Gmail via IMAP (default source) |
 | `feed_reader.py` | Fetches + cleans RSS articles (when `SOURCE = "rss"`) |
-| `agent.py` | ADK `LlmAgent` on Claude; returns a structured useful/summary verdict |
+| `agent.py` | ADK `LlmAgent` on Claude; returns a structured useful/summary verdict (vault-aware) |
+| `build_vault_profile.py` | Distills your Obsidian vault into `vault_context.md` (run locally) |
 | `emailer.py` | Renders + sends the Gmail digest |
 | `state.py` | `seen.json` dedup so nothing repeats |
 | `main.py` | Orchestrates fetch → analyze → email |

@@ -42,6 +42,13 @@ MAX_AGE_DAYS = 14
 # Overridable via CLAUDE_MODEL in .env. Format is "anthropic/<model-id>".
 CLAUDE_MODEL = os.environ.get("CLAUDE_MODEL") or "anthropic/claude-sonnet-5"
 
+# --- Obsidian vault (optional context) --------------------------------------
+# If VAULT_PATH points at your vault, run `python build_vault_profile.py` to
+# distill it into vault_context.md. When that file exists, the agent uses it to
+# steer relevance, avoid redundancy, and favor articles that fill vault gaps.
+# VAULT_PATH lives in .env (local only) — it never gets committed.
+
 # --- Files -------------------------------------------------------------------
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SEEN_FILE = os.path.join(BASE_DIR, "seen.json")
+VAULT_CONTEXT_FILE = os.path.join(BASE_DIR, "vault_context.md")
