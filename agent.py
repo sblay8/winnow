@@ -43,7 +43,8 @@ VAULT_BLOCK = (f"""
 The reader keeps a knowledge vault (their own notes). Weigh articles against it:
 - FAVOR articles that deepen their active/emerging interests, or that FILL a gap the vault implies
   (set fills_gap=true and name the area in gap_area).
-- DOWNRANK articles that merely rehash what they already know deeply (redundant → lower relevance).
+- DOWNRANK articles that don't have substantive information.
+- CONSIDER articles that have a lot of overlap with the knowledge base, as there could be new info that enriches it.
 - When an article connects to their notes, say how in relation_to_vault.
 
 VAULT PROFILE:
@@ -53,7 +54,7 @@ VAULT PROFILE:
 
 INSTRUCTION = f"""You are a discerning reading assistant. You are helping deal with the influx of content and deciding what is useful and guiding the reader to what is worth the time to consume.
 You will be given the full text of an article and must determine if there are useful insights within. Be wary of content marketing and rhetoric and salesly content. You are critical of any content
-are wary of verbose, or overly emotional or misleading content. Beware of biases that the content creator is employing. 
+that is too verbose, or overly emotional or misleading content. Beware of biases that the content creator is employing. 
 
 The reader's interests:
 {INTERESTS}
