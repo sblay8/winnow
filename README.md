@@ -22,12 +22,13 @@ Real output from a scheduled run:
 Reading new articles from gmail…
 Found 3 new article(s). Analyzing with Claude…
 
-  · skip  [2/10] From AI Adoption to Transformation, Part III
+  · skip  [2/10] [post on enterprise AI transformation]
           — Vague, image-dependent musings on AI transformation with no concrete
             frameworks, data, or actionable detail beyond buzzword-y figure captions.
-  · skip  [1/10] We’ve never seen an Anthropic before
-          — Speculative, hype-driven financial commentary with unverifiable/fabricated
-            figures and no actionable insight for AI practitioners, ending in a subscription paywall pitch.
+  · skip  [1/10] [post on AI market valuations]
+          — Speculative, hype-driven financial commentary with unverifiable
+            figures and no actionable insight for AI practitioners, ending in a
+            subscription paywall pitch.
   ✓ keep  [7/10] Building AI-Readiness: The Seven Stages of Data Platform Architecture
           — Presents a structured seven-stage maturity model linking data platform
             architecture directly to AI/agent readiness, offering a coherent
@@ -36,6 +37,9 @@ Found 3 new article(s). Analyzing with Claude…
 1 passed the bar (>= 6/10), 2 skipped.
 Sent digest to ***.
 ```
+
+Verdicts are verbatim; titles of the rejected posts are generalized, since there's
+no reason to publish an agent's criticism of a named writer's work.
 
 Two of three dropped, each with a reason. The kept article gets a summary, key
 takeaways, and — where relevant — a note on how it connects to the reader's existing
