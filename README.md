@@ -38,16 +38,12 @@ Found 3 new article(s). Analyzing with Claude…
 Sent digest to ***.
 ```
 
-Verdicts are verbatim; titles of the rejected posts are generalized, since there's
-no reason to publish an agent's criticism of a named writer's work.
-
 Two of three dropped, each with a reason. The kept article gets a summary, key
 takeaways, and — where relevant — a note on how it connects to the reader's existing
 notes.
 
-<!-- TODO: add a screenshot of a rendered digest email here, e.g.:
-     ![Digest email](docs/digest-screenshot.png)
-     Generate one with `python main.py --dry-run` and open out/digest.html -->
+<img width="666" height="638" alt="Content Digest Example" src="https://github.com/user-attachments/assets/95c62da7-7850-4237-9fc5-1421db5c08b1" />
+
 
 ## How it works
 
