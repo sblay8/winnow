@@ -47,8 +47,8 @@ notes.
 
 ```
 Substack emails          ┌───────────────────────────┐
-(Gmail label, IMAP)  ──▶ │  fetch new + dedup        │  seen state (Actions cache)
-   or RSS feeds          │  gmail_reader / feed_reader│
+(Gmail label.     )  ──▶ │  fetch new + dedup        │  seen state (Actions cache)
+                         │  gmail_reader / feed_reader│
                          └────────────┬──────────────┘
                                       ▼
                          ┌───────────────────────────┐
@@ -76,7 +76,7 @@ The parts that took actual thought, and what they cost:
 the same ground repeatedly. Instead, `build_vault_profile.py` distills an Obsidian
 vault into a profile of core expertise, active interests, and *gaps*. The agent then
 favors articles that fill a gap, and **downranks articles that rehash what the reader
-already knows cold**. Relevance becomes a function of the reader's current knowledge
+already knows cold**. Relevance becomes a function of the reader's "Second Brain" knowledge
 rather than the article alone.
 
 **The inbox is the subscription list.** Reading Substack mail over IMAP means there's
@@ -107,20 +107,7 @@ job landed 36–171 minutes late; an odd minute plus a deliberate buffer fixed i
 
 **Google ADK is more framework than this single-turn call needs.** It was chosen as
 scaffolding for planned multi-agent work — story clustering, a groundedness critic,
-tool-based fact-checking — none of which exists yet. As it stands the agent is
-stateless and tool-less, so the abstraction is not yet earning its keep. Documented
-here rather than hidden, because it's a real tradeoff.
-
-## Known limitations
-
-- **No eval suite.** Judgment quality is assessed by reading the output, not measured.
-  A labelled set with precision/recall per model is the most valuable next addition.
-- **Judges email HTML, not the article.** Body text is taken from the Substack email
-  and truncated at 20k chars, so image-heavy or paywalled posts are a degraded signal.
-  The canonical post URL is already extracted and could be fetched instead.
-- **Articles are scored in isolation.** Several newsletters covering the same story
-  produce several summaries rather than one synthesis.
-- **No feedback loop.** Actual reading behaviour never informs future scoring.
+tool-based fact-checking — none of which exists yet.
 
 ## Setup
 
