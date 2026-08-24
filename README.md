@@ -39,6 +39,7 @@ takeaways, and — where relevant — a note on how it connects to the reader's 
 notes.
 
 Example output of content that passed:
+
 <img width="666" height="638" alt="Content Digest Example" src="https://github.com/user-attachments/assets/95c62da7-7850-4237-9fc5-1421db5c08b1" />
 
 
