@@ -10,7 +10,7 @@ The problem it solves isn't summarization — plenty of tools do that. It's **tr
 Subscribing to good writers still leaves you with more than you can read, and the
 limiting factor is deciding what to skip. This agent makes that call, explains its
 reasoning, and is deliberately biased toward skipping.
-
+![Python](https://img.shields.io/badge/python-3.11-blue)
 ## What it actually produces
 
 Real output from a scheduled run:
@@ -37,7 +37,6 @@ Sent digest to ***.
 
 Example output of content that passed:
 [![Winnow digest](https://github.com/sblay8/winnow/actions/workflows/digest.yml/badge.svg)](https://github.com/sblay8/winnow/actions/workflows/digest.yml)
-![Python](https://img.shields.io/badge/python-3.11-blue)
 
 Two of three dropped, each with a reason. The kept article gets a summary, key
 takeaways, and — where relevant — a note on how it connects to the reader's existing
