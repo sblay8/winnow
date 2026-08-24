@@ -1,4 +1,4 @@
-name: Content digest
+name: Winnow digest
 
 on:
   schedule:

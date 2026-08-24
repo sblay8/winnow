@@ -82,20 +82,20 @@ def _render_html(picks: list[dict], skipped: list[dict] | None = None) -> str:
         header = "Nothing cleared the bar this time — see what was reviewed below."
     return f"""<html><body style="font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
       max-width:640px;margin:0 auto;padding:20px;color:#1a1a1a;">
-      <h1 style="font-size:22px;margin:0 0 4px;">Your content digest</h1>
+      <h1 style="font-size:22px;margin:0 0 4px;">Winnow</h1>
       <p style="color:#888;margin:0 0 24px;font-size:13px;">{header}</p>
       {cards}
       {_skipped_section(skipped)}
-      <p style="color:#aaa;font-size:12px;margin-top:20px;">Curated by your Claude content agent.</p>
+      <p style="color:#aaa;font-size:12px;margin-top:20px;">Winnow — AI triage for your Substack inbox.</p>
     </body></html>"""
 
 
 def _render_text(picks: list[dict], skipped: list[dict] | None = None) -> str:
     skipped = skipped or []
     if picks:
-        lines = [f"Your content digest — {len(picks)} article(s) worth your time.\n"]
+        lines = [f"Winnow — {len(picks)} article(s) worth your time.\n"]
     else:
-        lines = ["Your content digest — nothing cleared the bar this time.\n"]
+        lines = ["Winnow — nothing cleared the bar this time.\n"]
     for it in picks:
         a, an = it["article"], it["analysis"]
         lines.append(f"## {a.title}  ({a.feed}, {a.published}, relevance {an.relevance}/10)")
@@ -127,7 +127,7 @@ def send_digest(picks: list[dict], skipped: list[dict] | None = None) -> None:
 
     n = len(picks)
     msg = EmailMessage()
-    msg["Subject"] = f"Content digest — {n} pick{'s' if n != 1 else ''}"
+    msg["Subject"] = f"Winnow — {n} pick{'s' if n != 1 else ''}"
     msg["From"] = sender
     msg["To"] = recipient
     msg["Date"] = formatdate(localtime=True)

@@ -1,10 +1,12 @@
-# Claude Content Agent
+# Winnow
 
-**A personalized reading filter.** It reads the Substack newsletters piling up in your
-inbox, uses a Claude agent to judge which ones are actually worth your time — weighted
-against a profile of your own notes — and emails you a short digest of the survivors.
+### AI triage for your Substack inbox
 
-[![Content digest](https://github.com/sblay8/claude-content-agent/actions/workflows/digest.yml/badge.svg)](https://github.com/sblay8/claude-content-agent/actions/workflows/digest.yml)
+It reads the newsletters piling up in your inbox, uses a Claude agent to judge which
+ones are actually worth your time — weighted against a profile of your own notes —
+and emails you a short digest of the survivors.
+
+[![Winnow digest](https://github.com/sblay8/winnow/actions/workflows/digest.yml/badge.svg)](https://github.com/sblay8/winnow/actions/workflows/digest.yml)
 ![Python](https://img.shields.io/badge/python-3.11-blue)
 
 The problem it solves isn't summarization — plenty of tools do that. It's **triage**.
@@ -112,8 +114,8 @@ tool-based fact-checking — none of which exists yet.
 ## Setup
 
 ```bash
-git clone https://github.com/sblay8/claude-content-agent.git
-cd claude-content-agent
+git clone https://github.com/sblay8/winnow.git
+cd winnow
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
@@ -174,7 +176,7 @@ unset the secret to turn the feature off.
 To run on your own machine instead of Actions:
 
 ```cron
-23 5 * * *  cd /path/to/claude-content-agent && .venv/bin/python main.py >> cron.log 2>&1
+23 5 * * *  cd /path/to/winnow && .venv/bin/python main.py >> cron.log 2>&1
 ```
 
 ## Files

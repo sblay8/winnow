@@ -11,7 +11,7 @@ from pydantic import BaseModel, Field
 
 from config import CLAUDE_MODEL, INTERESTS, VAULT_CONTEXT_FILE
 
-APP_NAME = "claude_content"
+APP_NAME = "winnow"
 USER_ID = "local"
 
 
