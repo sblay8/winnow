@@ -23,9 +23,9 @@ Found 3 new article(s). Analyzing with Claude…
   · skip  [2/10] From AI Adoption to Transformation, Part III
           — Vague, image-dependent musings on AI transformation with no concrete
             frameworks, data, or actionable detail beyond buzzword-y figure captions.
-  · skip  [2/10] The Necessity of Conflict
-          — A personal essay of stoic anecdotes about conflict avoidance, with no
-            connection to AI/LLM, technology, or economic analysis.
+  · skip  [1/10] We’ve never seen an Anthropic before
+          — Speculative, hype-driven financial commentary with unverifiable/fabricated
+            figures and no actionable insight for AI practitioners, ending in a subscription paywall pitch.
   ✓ keep  [7/10] Building AI-Readiness: The Seven Stages of Data Platform Architecture
           — Presents a structured seven-stage maturity model linking data platform
             architecture directly to AI/agent readiness, offering a coherent
