@@ -1,5 +1,5 @@
 # Winnow
-
+![Python](https://img.shields.io/badge/python-3.11-blue) [![Winnow digest](https://github.com/sblay8/winnow/actions/workflows/digest.yml/badge.svg)](https://github.com/sblay8/winnow/actions/workflows/digest.yml)
 ### AI triage for your Substack inbox
 
 It reads the newsletters piling up in your inbox, uses a Claude agent to judge which
@@ -10,7 +10,7 @@ The problem it solves isn't summarization — plenty of tools do that. It's **tr
 Subscribing to good writers still leaves you with more than you can read, and the
 limiting factor is deciding what to skip. This agent makes that call, explains its
 reasoning, and is deliberately biased toward skipping.
-![Python](https://img.shields.io/badge/python-3.11-blue) [![Winnow digest](https://github.com/sblay8/winnow/actions/workflows/digest.yml/badge.svg)](https://github.com/sblay8/winnow/actions/workflows/digest.yml)
+
 ## What it actually produces
 
 Real output from a scheduled run:
