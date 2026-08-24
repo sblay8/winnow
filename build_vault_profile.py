@@ -140,7 +140,9 @@ def main() -> None:
     )
     with open(VAULT_CONTEXT_FILE, "w", encoding="utf-8") as f:
         f.write(output)
-    print(f"Wrote {VAULT_CONTEXT_FILE} ({len(output)} chars). Commit it so the hosted job uses it.")
+    print(f"Wrote {VAULT_CONTEXT_FILE} ({len(output)} chars).")
+    print("It is gitignored on purpose. To let the hosted job use it, upload it as a secret:")
+    print("  gh secret set VAULT_CONTEXT < vault_context.md")
 
 
 if __name__ == "__main__":
