@@ -50,5 +50,10 @@ CLAUDE_MODEL = os.environ.get("CLAUDE_MODEL") or "anthropic/claude-sonnet-5"
 
 # --- Files -------------------------------------------------------------------
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# Runtime dedup state. Gitignored; restored from the Actions cache between runs.
 SEEN_FILE = os.path.join(BASE_DIR, "seen.json")
+# Committed bootstrap snapshot, read only when SEEN_FILE is absent (first run, or
+# after a cache eviction). Prevents a cold start from re-analyzing MAX_AGE_DAYS of
+# backlog and sending one enormous digest.
+SEEN_SEED_FILE = os.path.join(BASE_DIR, "seen.seed.json")
 VAULT_CONTEXT_FILE = os.path.join(BASE_DIR, "vault_context.md")

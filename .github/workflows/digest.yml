@@ -13,9 +13,9 @@ on:
     - cron: "23 5 * * *"
   workflow_dispatch: {}   # lets you trigger a run manually from the Actions tab
 
-# Needed so the job can commit the updated seen.json back to the repo.
+# Read-only: dedup state round-trips through the Actions cache, not a git commit.
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: content-digest
@@ -35,6 +35,31 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      # Rolling cache: each run saves under a unique key, and restore-keys picks up
+      # the most recent previous entry. If nothing is found (first run, or a cache
+      # evicted after 7 idle days) state.py falls back to the committed seen.seed.json
+      # so a cold start can't re-analyze the whole backlog.
+      - name: Restore dedup state
+        uses: actions/cache@v4
+        with:
+          path: seen.json
+          key: seen-${{ github.run_id }}
+          restore-keys: seen-
+
+      # The vault profile describes the owner's private notes, so it is gitignored
+      # and injected here instead. Absent secret => the agent runs without vault
+      # context, which is a supported mode (see agent.py VAULT_BLOCK).
+      - name: Materialize vault profile
+        env:
+          VAULT_CONTEXT: ${{ secrets.VAULT_CONTEXT }}
+        run: |
+          printf '%s' "$VAULT_CONTEXT" > vault_context.md
+          if [[ -s vault_context.md ]]; then
+            echo "Vault profile present ($(wc -c < vault_context.md) bytes) — vault-aware ranking on."
+          else
+            echo "VAULT_CONTEXT secret not set — running without vault context."
+          fi
+
       - name: Run pipeline
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -43,16 +68,3 @@ jobs:
           DIGEST_TO: ${{ secrets.DIGEST_TO }}
           CLAUDE_MODEL: ${{ vars.CLAUDE_MODEL }}   # optional; blank falls back to the default
         run: python main.py
-
-      - name: Persist seen.json
-        if: always()   # save state even if the send step errored
-        run: |
-          if [[ -n "$(git status --porcelain seen.json)" ]]; then
-            git config user.name  "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add seen.json
-            git commit -m "Update seen.json [skip ci]"
-            git push
-          else
-            echo "No change to seen.json."
-          fi

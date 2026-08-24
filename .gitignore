@@ -5,3 +5,13 @@ __pycache__/
 venv/
 out/
 .DS_Store
+
+# Runtime state — lives in the GitHub Actions cache, not in git. Committing it on
+# every run buried the real history under dozens of bot commits. See seen.seed.json
+# for the bootstrap snapshot used when no cache exists yet.
+seen.json
+
+# Personal knowledge profile distilled from a private Obsidian vault. Never commit:
+# it describes the owner's notes, interests and knowledge gaps. CI reads it from the
+# VAULT_CONTEXT secret instead. See vault_context.example.md for the format.
+vault_context.md
