@@ -23,7 +23,7 @@ FEEDS = [
 # Free-text description of what you care about. The agent uses this to decide
 # whether an article is worth summarizing. Be as specific as you like.
 INTERESTS = """
-I care about: practical uses of AI/LLMs, how technology reshapes work and the
+I care about: practical uses of AI/LLMs, data product management, data architecture, how technology reshapes work and the
 economy, sharp original analysis, and concrete takeaways I can act on.
 I do NOT care about: routine news recaps, culture-war commentary, link roundups,
 personal/housekeeping posts, or paywalled teasers with little real content.
