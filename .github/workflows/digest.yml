@@ -2,10 +2,15 @@ name: Content digest
 
 on:
   schedule:
-    # Runs daily at 06:30 UTC = 7:30am London during BST (summer).
+    # 05:23 UTC = 6:23am London during BST. Deliberately early and on an odd
+    # minute: GitHub only runs scheduled jobs on a best-effort basis, and jobs
+    # on the hour / half-hour queue behind everyone else's. At 06:30 UTC this
+    # was landing 36-171 min late (8:06-10:21am London). The buffer means even
+    # a slow queue should still deliver before 7:30am.
     # NB: GitHub cron is fixed UTC and does NOT follow DST — in winter (GMT)
-    # this fires at 6:30am local. Bump to "30 7 * * *" then if you want 7:30 year-round.
-    - cron: "30 6 * * *"
+    # this fires at 5:23am local. Bump to "23 6 * * *" then if you want the
+    # same local time year-round.
+    - cron: "23 5 * * *"
   workflow_dispatch: {}   # lets you trigger a run manually from the Actions tab
 
 # Needed so the job can commit the updated seen.json back to the repo.
